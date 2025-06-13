@@ -1,15 +1,10 @@
-__pycache__/
-*.pyc
+backend/db.sqlite3
+backend/__pycache__/
+backend/venv/
 
-*.sqlite3
-db.sqlite3
-
-venv/
-.env
+frontend/node_modules/
+frontend/dist/
+frontend/.env*
 
 .vscode/
 .idea/
-
-static_root/
-
-media_root/
