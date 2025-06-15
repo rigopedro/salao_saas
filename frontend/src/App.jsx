@@ -1,3 +1,5 @@
+// frontend/src/App.jsx
+
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
@@ -21,7 +23,7 @@ function App() {
     };
 
     fetchServicos();
-  }, []); 
+  }, []);
 
   if (loading) {
     return <p>Carregando serviços...</p>;
@@ -30,6 +32,22 @@ function App() {
   if (error) {
     return <p style={{ color: 'red' }}>{error}</p>;
   }
+
+  // dxr aqui p se voltar com um obj chave results
+  /*
+  return (
+    <div className="App">
+      <h1>Serviços Disponíveis no Salão</h1>
+      <ul>
+        {servicos.results && servicos.results.map(servico => (
+          <li key={servico.id}>
+            {servico.nome} - R$ {servico.preco}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+  */
 
   return (
     <div className="App">
