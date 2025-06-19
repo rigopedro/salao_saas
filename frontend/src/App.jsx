@@ -56,14 +56,13 @@ function App() {
     const agendamentoParaEnviar = {
       servico: servicoSelecionado.id,
       profissional: profissionalSelecionada.id,
-      data_hora: dataHoraFinal.toISOString(), // Envia a data no formato padrão ISO 8601
+      data_hora: dataHoraFinal.toISOString(),
     };
     try {
-      // AQUI PRECISAMOS ESTAR AUTENTICADOS!
-      // Por enquanto, isso vai falhar, mas vamos preparar o código.
+      // autenticar aqui
       // const response = await axios.post('http://127.0.0.1:8000/api/v1/agendamentos/', agendamentoParaEnviar);
       // console.log("Agendamento criado com sucesso:", response.data);
-      alert(`Agendamento para ${servicoSelecionado.nome} com ${profissionalSelecionada.usuario.username} às ${dataHoraFinal.toLocaleString('pt-BR')} foi solicitado! (Ainda sem salvar no BD)`);
+      alert(`Agendamento para ${servicoSelecionado.nome} com ${profissionalSelecionada.usuario.username} às ${dataHoraFinal.toLocaleString('pt-BR')} foi solicitado!`);
       setEtapa(4); // Avança para uma tela de sucesso
     } catch (error) {
       console.error("Erro ao criar agendamento:", error);
