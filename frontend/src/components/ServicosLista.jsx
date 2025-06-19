@@ -1,12 +1,10 @@
-import React from 'react';
-
-function ServicosLista({ servicos, onServicoSelect }) {
+function ServicosLista({ servicos, onServicoSelect, servicoSelecionado }) {
   return (
     <div className="servicos-lista">
       {servicos.map(servico => (
         <div 
-          key={servico.id} 
-          className="servico-item" 
+          key={servico.id}
+          className={`servico-item ${servicoSelecionado?.id === servico.id ? 'item-selecionado' : ''}`} 
           onClick={() => onServicoSelect(servico)}
         >
           <span className="servico-nome">{servico.nome}</span>
