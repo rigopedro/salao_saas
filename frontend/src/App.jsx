@@ -5,6 +5,8 @@ import ProfissionaisLista from './components/ProfissionaisLista.jsx';
 import EtapaCard from './components/EtapaCard.jsx';
 import CalendarioEtapa from './components/CalendarioEtapa.jsx';
 import './App.css';
+import Header from './components/Header.jsx';
+import Footer from './components/Footer.jsx';
 
 function App() {
   const [etapa, setEtapa] = useState(1);
@@ -63,7 +65,7 @@ function App() {
       // const response = await axios.post('http://127.0.0.1:8000/api/v1/agendamentos/', agendamentoParaEnviar);
       // console.log("Agendamento criado com sucesso:", response.data);
       alert(`Agendamento para ${servicoSelecionado.nome} com ${profissionalSelecionada.usuario.username} às ${dataHoraFinal.toLocaleString('pt-BR')} foi solicitado!`);
-      setEtapa(4); // Avança para uma tela de sucesso
+      setEtapa(4);
     } catch (error) {
       console.error("Erro ao criar agendamento:", error);
       alert("Houve um erro ao tentar agendar. Tente novamente.");
@@ -82,57 +84,66 @@ function App() {
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   return (
-    <div className="container">
+    <>
+      <Header />
 
-      {etapa === 1 && (
-        <EtapaCard numero="1" titulo="Escolha o Serviço">
-          <ServicosLista 
-            servicos={servicos} 
-            onServicoSelect={handleServicoSelect} 
-            servicoSelecionado={servicoSelecionado}
-          />
+      <main className="main-content">
+
+      <div className="container">
+        
+        {etapa === 1 && (
+          <EtapaCard numero="1" titulo="Escolha o Serviço">
+            <ServicosLista 
+              servicos={servicos} 
+              onServicoSelect={handleServicoSelect} 
+              servicoSelecionado={servicoSelecionado}
+            />
+          </EtapaCard>
+        )}
+
+        {etapa === 2 && (
+          <EtapaCard numero="2" titulo="Escolha a Profissional">
+            <p>Serviço: <strong>{servicoSelecionado.nome}</strong></p>
+            <ProfissionaisLista 
+              profissionais={getProfissionaisFiltrados()}
+              onProfissionalSelect={handleProfissionalSelect}
+              profissionalSelecionada={profissionalSelecionada}
+            />
+            <button onClick={() => setEtapa(1)}>Voltar</button>
+          </EtapaCard>
+        )}
+
+        {etapa === 3 && (
+          <EtapaCard numero="3" titulo="Escolha a Data e Horário">
+          <p>
+              Você selecionou: <strong>{servicoSelecionado.nome}</strong> com 
+              <strong> {profissionalSelecionada.usuario.username}</strong>
+            </p>
+            <CalendarioEtapa 
+              servicoSelecionado={servicoSelecionado}
+              profissionalSelecionada={profissionalSelecionada}
+              onAgendamentoConfirmado={handleAgendamentoConfirmado}
+            />
+            <button onClick={() => setEtapa(2)}>Voltar</button>
         </EtapaCard>
-      )}
+        )}
 
-      {etapa === 2 && (
-        <EtapaCard numero="2" titulo="Escolha a Profissional">
-          <p>Serviço: <strong>{servicoSelecionado.nome}</strong></p>
-          <ProfissionaisLista 
-            profissionais={getProfissionaisFiltrados()}
-            onProfissionalSelect={handleProfissionalSelect}
-             profissionalSelecionada={profissionalSelecionada}
-          />
-          <button onClick={() => setEtapa(1)}>Voltar</button>
-        </EtapaCard>
-      )}
-
-      {etapa === 3 && (
-        <EtapaCard numero="3" titulo="Escolha a Data e Horário">
-        <p>
-            Você selecionou: <strong>{servicoSelecionado.nome}</strong> com 
-            <strong> {profissionalSelecionada.usuario.username}</strong>
-        </p>
-        <CalendarioEtapa 
-            servicoSelecionado={servicoSelecionado}
-            profissionalSelecionada={profissionalSelecionada}
-            onAgendamentoConfirmado={handleAgendamentoConfirmado}
-        />
-        <button onClick={() => setEtapa(2)}>Voltar</button>
-    </EtapaCard>
-      )}
-
-      {etapa === 4 && (
-        <EtapaCard numero="✓" titulo="Agendamento Concluído!">
-          <p>Seu agendamento foi realizado com sucesso.</p>
-          <p>Você receberá uma confirmação em breve.</p>
-          <button onClick={() => {
-            setEtapa(1);
-            setServicoSelecionado(null);
-            setProfissionalSelecionada(null);
-          }}>Marcar outro horário</button>
-        </EtapaCard>
-      )}
-    </div>
+        {etapa === 4 && (
+          <EtapaCard numero="✓" titulo="Agendamento Concluído!">
+            <p>Seu agendamento foi realizado com sucesso.</p>
+            <p>Você receberá uma confirmação em breve.</p>
+            <button onClick={() => {
+              setEtapa(1);
+              setServicoSelecionado(null);
+              setProfissionalSelecionada(null);
+            }}>Marcar outro horário</button>
+          </EtapaCard>
+        )}
+        
+      </div>
+      </main>
+      <Footer />
+    </>
   );
 }
 

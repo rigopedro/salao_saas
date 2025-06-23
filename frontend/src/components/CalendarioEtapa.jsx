@@ -68,7 +68,7 @@ function CalendarioEtapa({ servicoSelecionado, profissionalSelecionada, onAgenda
             horariosDisponiveis.map(horario => (
               <button 
                 key={horario} 
-                className={`horario-botao ${horario === horarioSelecionado ? 'item-selecionado' : ''}`}
+                className={`horario-botao ${horario === horarioSelecionado ? 'horario-selecionado' : ''}`}
                 onClick={() => setHorarioSelecionado(horario)}
               >
                 {horario}
@@ -78,7 +78,7 @@ function CalendarioEtapa({ servicoSelecionado, profissionalSelecionada, onAgenda
         </div>
 
         {horarioSelecionado && (
-          <button className="confirmar-botao" onClick={handleConfirmarClick}>
+          <button className="botao-confirmar" onClick={handleConfirmarClick}>
             Confirmar Agendamento
           </button>
         )}

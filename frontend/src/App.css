@@ -1,121 +1,51 @@
 :root {
+  font-family: 'Poppins', sans-serif;
   --primary-color: #E91E63;
-  --light-pink: #FCE4EC;
-  --white: #FFFFFF;
-  --light-gray: #F5F5F5;
-  --medium-gray: #9E9E9E;
-  --dark-gray: #424242;
-  --border-radius: 8px;
-  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --background-color: #FFF0F5; 
+  --card-background: #FFFFFF;
+  --text-dark: #333333;
+  --text-light: #888888;
+  --border-color: #EEEEEE;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Poppins', sans-serif;
   margin: 0;
-  background-color: var(--light-pink);
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex-grow: 1;
+  width: 100%;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  padding: 20px;
+  padding: 40px 20px;
 }
 
 .container {
-  background-color: var(--white);
-  padding: 30px;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  width: 100%;
-  max-width: 700px;
+   width: 100%;
+  max-width: 800px;
+  padding: 0; 
 }
-
-h1 {
-  color: var(--dark-gray);
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-p {
-  color: var(--medium-gray);
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.servicos-lista, .profissionais-lista {
- display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
-  margin-bottom: 30px;
-}
-
-.servico-item, .profissional-item {
-  background-color: var(--light-gray);
-  padding: 20px;
-  border-radius: var(--border-radius);
-  border: 2px solid transparent;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  color: var(--dark-gray);
-}
-
-.servico-item:hover, .profissional-item:hover {
-  border-color: var(--primary-color);
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.servico-nome, .profissional-nome {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 5px;
-}
-
-.servico-preco {
-  color: var(--primary-color);
-  font-size: 0.9em;
-}
-
-button {
-  background-color: transparent;
-  color: var(--primary-color);
-  border: 1px solid var(--primary-color);
-  padding: 10px 20px;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  font-size: 1em;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  margin-top: 20px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-button:hover {
-  background-color: var(--primary-color);
-  color: var(--white);
-}
-
-/*.agendamento-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 30px;
-} */
 
 .etapa-card {
-  background-color: var(--white);
-  border: 1px solid #eee;
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
-  padding: 20px;
-  transition: opacity 0.3s ease;
+  box-shadow: var(--box-shadow);
+  padding: 30px;
+  margin-bottom: 30px;
 }
 
 .etapa-header {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 15px;
 }
 
 .etapa-numero {
@@ -124,47 +54,75 @@ button:hover {
   border-radius: 50%;
   width: 30px;
   height: 30px;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
+  font-size: 1.1em;
   margin-right: 15px;
 }
 
 .etapa-titulo {
   margin: 0;
-  font-size: 1.2em;
-  color: var(--dark-gray);
+  font-size: 1.5em;
+  color: var(--text-dark);
+  font-weight: 700;
 }
 
-.etapa-disabled {
-  opacity: 0.5;
-  pointer-events: none;
+.etapa-conteudo {
+  padding-top: 10px;
 }
 
-.placeholder-text {
-  color: var(--medium-gray);
-  font-style: italic;
+.servicos-lista, .profissionais-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
 }
 
-.etapa-full-width {
-  grid-column: 1 / -1;
+.servico-item, .profissional-item {
+  background-color: #F9F9F9;
+  padding: 20px;
+  border-radius: var(--border-radius);
+  border: 2px solid var(--border-color);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  color: var(--text-dark);
+}
+
+.servico-item:hover, .profissional-item:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-3px);
 }
 
 .item-selecionado {
-  background-color: var(--primary-color) !important;
-  color: var(--white) !important;
-  border-color: var(--primary-color) !important;
+  border-color: var(--primary-color);
+  background-color: var(--light-pink);
+  font-weight: bold;
 }
 
-.item-selecionado .servico-preco {
-  color: var(--white) !important;
+button {
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: none;
+  padding: 12px 25px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 500;
+  transition: transform 0.2s ease;
+  margin-top: 20px;
+}
+
+button:hover {
+  transform: scale(1.05);
 }
 
 .calendario-container {
   display: flex;
   gap: 30px;
   margin-top: 20px;
+  flex-wrap: wrap;
 }
 
 .datepicker-wrapper {
@@ -173,38 +131,49 @@ button:hover {
 
 .horarios-wrapper {
   flex-grow: 1;
-  border-left: 1px solid #eee;
-  padding-left: 30px;
+  min-width: 250px;
 }
 
 .horarios-wrapper h3 {
   margin-top: 0;
   text-align: left;
+  font-size: 1em;
+  font-weight: 500;
+  color: var(--text-light);
 }
 
 .horarios-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   gap: 10px;
 }
 
 .horario-botao {
-  background-color: var(--light-gray);
-  color: var(--dark-gray);
-  border: 1px solid #ddd;
+  background-color: var(--white);
+  color: var(--text-dark);
+  border: 1px solid var(--border-color);
   padding: 10px;
   border-radius: var(--border-radius);
   cursor: pointer;
   text-align: center;
   transition: all 0.2s ease;
+  font-weight: 500;
 }
 
 .horario-botao:hover {
   border-color: var(--primary-color);
-  background-color: #e9e9e9;
 }
 
-.react-datepicker {
-  border: none;
-  font-size: 0.9em;
+.horario-selecionado {
+  background-color: var(--primary-color);
+  color: var(--white);
+  border-color: var(--primary-color);
+}
+
+.botao-confirmar {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  font-size: 1.1em;
+  font-weight: bold;
 }
