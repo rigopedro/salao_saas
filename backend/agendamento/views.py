@@ -1,11 +1,19 @@
 from rest_framework import viewsets
 from .models import Servico, Profissional, Agendamento
-from .serializers import ServicoSerializer, ProfissionalSerializer, AgendamentoSerializer
+from .serializers import ServicoSerializer, ProfissionalSerializer, AgendamentoSerializer, UserCreateSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.utils import timezone
 from datetime import time, timedelta, date
+from rest_framework import viewsets, generics
+from rest_framework.permissions import AllowAny
+from django.contrib.auth.models import User
+
+class UserCreateView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserCreateSerializer
+    permission_classes = [AllowAny]
 
 class ServicoViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Servico.objects.all()
