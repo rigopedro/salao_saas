@@ -208,3 +208,22 @@ button:hover {
   color: var(--text-light);
   font-size: 1.1em;
 }
+
+.form-grupo-horizontal {
+  display: flex;
+  gap: 20px;
+}
+
+.form-grupo-horizontal .form-grupo {
+  flex: 1;
+}
+
+.form-error {
+  color: #D32F2F;
+  background-color: #FFCDD2;
+  padding: 10px;
+  border-radius: var(--border-radius);
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
