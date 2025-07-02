@@ -9,6 +9,8 @@ from datetime import time, timedelta, date
 from rest_framework import viewsets, generics
 from rest_framework.permissions import AllowAny
 from django.contrib.auth.models import User
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import MyTokenObtainPairSerializer
 
 class UserCreateView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -52,8 +54,8 @@ class ProfissionalViewSet(viewsets.ModelViewSet):
         horarios_ocupados = []
         for agendamento in agendamentos_do_dia:
             inicio = agendamento.data_hora
-            servico_agendado = agendamento.servico
-            duracao_agendamento = timedelta(minutes=servico_agendado.duracao_minutos)
+            duracao_total_minutos = sum(s.duracao_minutos for s in agendamento.servicos.all())
+            duracao_agendamento = timedelta(minutes=duracao_total_minutos)
             fim = inicio + duracao_agendamento
             horarios_ocupados.append((inicio.time(), fim.time()))
 
@@ -93,3 +95,6 @@ class AgendamentoViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(cliente=self.request.user)
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Servico, Profissional, Agendamento
 from django.contrib.auth.models import User
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class UserCreateSerializer(serializers.ModelSerializer):
     telefone = serializers.CharField(write_only=True, source='username')
@@ -41,5 +42,15 @@ class ProfissionalSerializer(serializers.ModelSerializer):
 class AgendamentoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Agendamento
-        fields = ['id', 'profissional', 'servico', 'data_hora', 'cliente']
+        fields = ['id', 'profissional', 'servicos', 'data_hora', 'cliente']
         read_only_fields = ['cliente']
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        token['first_name'] = user.first_name
+        token['username'] = user.username
+
+        return token

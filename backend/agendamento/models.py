@@ -26,7 +26,7 @@ class Agendamento(models.Model):
 
     cliente = models.ForeignKey(User, on_delete=models.CASCADE, related_name='agendamentos_como_cliente')
     profissional = models.ForeignKey(Profissional, on_delete=models.CASCADE)
-    servico = models.ForeignKey(Servico, on_delete=models.CASCADE)
+    servicos = models.ManyToManyField(Servico)
     data_hora = models.DateTimeField()
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Pendente')
 
