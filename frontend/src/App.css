@@ -227,3 +227,43 @@ button:hover {
   margin-top: 0;
   margin-bottom: 15px;
 }
+
+.form-cadastro {
+  margin-top: 20px;
+}
+
+.form-grupo {
+  margin-bottom: 20px;
+}
+
+.form-grupo label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--text-light);
+  font-size: 0.9em;
+  text-align: left;
+}
+
+.form-grupo input {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 1em;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
+}
+
+.form-grupo input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.15);
+}
+
+.form-cadastro .botao-confirmar {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.1em;
+}

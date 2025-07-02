@@ -1,11 +1,14 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import AuthContext from '../context/AuthContext';
 import EtapaCard from '../components/EtapaCard.jsx';
 import ServicosLista from '../components/ServicosLista.jsx';
 import ProfissionaisLista from '../components/ProfissionaisLista.jsx';
 import CalendarioEtapa from '../components/CalendarioEtapa.jsx';
 
 function Agendamento() {
+  const { tokens } = useContext(AuthContext);
+  
   const [etapa, setEtapa] = useState(1);
   const [servicos, setServicos] = useState([]);
   const [profissionais, setProfissionais] = useState([]);
@@ -16,6 +19,7 @@ function Agendamento() {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const [servicosResponse, profissionaisResponse] = await Promise.all([
           axios.get('http://127.0.0.1:8000/api/v1/servicos/'),
@@ -46,6 +50,7 @@ function Agendamento() {
 
   const avancarParaProfissionais = () => {
     if (servicosSelecionados.length > 0) {
+      setProfissionalSelecionada(null);
       setEtapa(2);
     }
   };
@@ -56,9 +61,35 @@ function Agendamento() {
   };
 
   const handleAgendamentoConfirmado = async (dataHoraFinal) => {
-    const nomesServicos = servicosSelecionados.map(s => s.nome).join(', ');
-    alert(`Agendamento para ${nomesServicos} com ${profissionalSelecionada.usuario.username} às ${dataHoraFinal.toLocaleString('pt-BR')} foi solicitado!`);
-    setEtapa(4);
+    if (!tokens) {
+      alert("Você precisa estar logado para fazer um agendamento.");
+      return;
+    }
+
+    const idsDosServicos = servicosSelecionados.map(s => s.id);
+
+    const agendamentoParaEnviar = {
+      profissional: profissionalSelecionada.id,
+      servicos: idsDosServicos,
+      data_hora: dataHoraFinal.toISOString(),
+    };
+
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${tokens.access}`
+      }
+    };
+
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/api/v1/agendamentos/', agendamentoParaEnviar, config);
+
+      console.log("Agendamento criado com sucesso:", response.data);
+      setEtapa(4);
+
+    } catch (error) {
+      console.error("Erro ao criar agendamento:", error.response ? error.response.data : error.message);
+      alert("Houve um erro ao confirmar seu agendamento. Verifique se o horário ainda está disponível e tente novamente.");
+    }
   };
 
   const getProfissionaisFiltrados = () => {
@@ -69,6 +100,12 @@ function Agendamento() {
       : 'Cabeleireira';
     return profissionais.filter(p => p.especialidade === tipoServico);
   };
+
+  const reiniciarFluxo = () => {
+    setEtapa(1);
+    setServicosSelecionados([]);
+    setProfissionalSelecionada(null);
+  }
 
   if (loading) return <p>Carregando...</p>;
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
@@ -81,54 +118,50 @@ function Agendamento() {
       </div>
       <div className="container">
         {etapa === 1 && (
-            <EtapaCard numero="1" titulo="Escolha o(s) Serviço(s)">
-              <ServicosLista 
-                servicos={servicos} 
-                onServicoSelect={handleServicoSelect} 
-                servicosSelecionados={servicosSelecionados}
-              />
-              {servicosSelecionados.length > 0 && (
-                <button onClick={avancarParaProfissionais} className="botao-confirmar">
-                  Avançar
-                </button>
-              )}
-            </EtapaCard>
-          )}
+          <EtapaCard numero="1" titulo="Escolha o(s) Serviço(s)">
+            <ServicosLista 
+              servicos={servicos} 
+              onServicoSelect={handleServicoSelect} 
+              servicosSelecionados={servicosSelecionados}
+            />
+            {servicosSelecionados.length > 0 && (
+              <button onClick={avancarParaProfissionais} className="botao-confirmar">
+                Avançar
+              </button>
+            )}
+          </EtapaCard>
+        )}
         {etapa === 2 && (
-            <EtapaCard numero="2" titulo="Escolha a Profissional">
-              <p>Serviços: <strong>{servicosSelecionados.map(s => s.nome).join(', ')}</strong></p>
-              <ProfissionaisLista 
-                profissionais={getProfissionaisFiltrados()}
-                onProfissionalSelect={handleProfissionalSelect}
-                profissionalSelecionada={profissionalSelecionada}
-              />
-              <button onClick={() => setEtapa(1)}>Voltar</button>
-            </EtapaCard>
-          )}
+          <EtapaCard numero="2" titulo="Escolha a Profissional">
+            <p>Serviços: <strong>{servicosSelecionados.map(s => s.nome).join(', ')}</strong></p>
+            <ProfissionaisLista 
+              profissionais={getProfissionaisFiltrados()}
+              onProfissionalSelect={handleProfissionalSelect}
+              profissionalSelecionada={profissionalSelecionada}
+            />
+            <button onClick={() => setEtapa(1)}>Voltar</button>
+          </EtapaCard>
+        )}
         {etapa === 3 && (
-            <EtapaCard numero="3" titulo="Escolha a Data e Horário">
-              <p>
-                Serviços: <strong>{servicosSelecionados.map(s => s.nome).join(', ')}</strong><br/>
-                Profissional: <strong> {profissionalSelecionada.usuario.username}</strong>
-              </p>
-              <CalendarioEtapa 
-                servicoSelecionado={servicosSelecionados[0]}
-                profissionalSelecionada={profissionalSelecionada}
-                onAgendamentoConfirmado={handleAgendamentoConfirmado}
-              />
-              <button onClick={() => setEtapa(2)}>Voltar</button>
-            </EtapaCard>
-          )}
+          <EtapaCard numero="3" titulo="Escolha a Data e Horário">
+            <p>
+              Serviços: <strong>{servicosSelecionados.map(s => s.nome).join(', ')}</strong><br/>
+              Profissional: <strong>{profissionalSelecionada.usuario.username}</strong>
+            </p>
+            <CalendarioEtapa 
+              servicoSelecionado={servicosSelecionados[0]}
+              profissionalSelecionada={profissionalSelecionada}
+              onAgendamentoConfirmado={handleAgendamentoConfirmado}
+            />
+            <button onClick={() => setEtapa(2)}>Voltar</button>
+          </EtapaCard>
+        )}
         {etapa === 4 && (
-            <EtapaCard numero="✓" titulo="Agendamento Concluído!">
-              <p>Seu agendamento foi realizado com sucesso!</p>
-              <button onClick={() => {
-                setEtapa(1);
-                setServicosSelecionados([]);
-                setProfissionalSelecionada(null);
-              }}>Marcar outro horário</button>
-            </EtapaCard>
-          )}
+          <EtapaCard numero="✓" titulo="Agendamento Concluído!">
+            <p>Seu agendamento foi realizado com sucesso.</p>
+            <button onClick={reiniciarFluxo}>Marcar outro horário</button>
+          </EtapaCard>
+        )}
       </div>
     </>
   );

@@ -4,6 +4,7 @@ import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import Agendamento from './pages/Agendamento.jsx'; 
 import Cadastro from './pages/Cadastro.jsx';
+import Login from './pages/Login.jsx';
 import './App.css';
 
 function App() {
@@ -15,6 +16,8 @@ function App() {
           <Route path="/" element={<Agendamento />} /> 
           
           <Route path="/cadastro" element={<Cadastro />} />
+
+          <Route path="/login" element={<Login />} />
 
         </Routes>
       </main>
