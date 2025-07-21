@@ -39,11 +39,20 @@ class ProfissionalSerializer(serializers.ModelSerializer):
         model = Profissional
         fields = ['id', 'usuario', 'especialidade']
 
-class AgendamentoSerializer(serializers.ModelSerializer):
+class AgendamentoCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Agendamento
-        fields = ['id', 'profissional', 'servicos', 'data_hora', 'cliente']
-        read_only_fields = ['cliente']
+        fields = ['id', 'profissional', 'servicos', 'data_hora']
+
+
+class AgendamentoSerializer(serializers.ModelSerializer):
+    profissional = ProfissionalSerializer(read_only=True)
+    servicos = ServicoSerializer(many=True, read_only=True)
+    cliente = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Agendamento
+        fields = ['id', 'profissional', 'servicos', 'data_hora', 'status', 'cliente']
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod

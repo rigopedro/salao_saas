@@ -103,8 +103,6 @@ REST_FRAMEWORK = {
     )
 }
 
-# Adicione no final de settings.py
-
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),

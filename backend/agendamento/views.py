@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from .models import Servico, Profissional, Agendamento
-from .serializers import ServicoSerializer, ProfissionalSerializer, AgendamentoSerializer, UserCreateSerializer
+from .serializers import ServicoSerializer, ProfissionalSerializer, AgendamentoSerializer, AgendamentoCreateSerializer, UserCreateSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -86,15 +86,21 @@ class ProfissionalViewSet(viewsets.ModelViewSet):
         return Response(horarios_disponiveis)
 
 class AgendamentoViewSet(viewsets.ModelViewSet):
-    serializer_class = AgendamentoSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user
-        return Agendamento.objects.filter(cliente=user)
+        return Agendamento.objects.filter(cliente=user, data_hora__gte=timezone.now()).order_by('data_hora')
+
+    def get_serializer_class(self):
+        if self.action == 'create' or self.action == 'partial_update' or self.action == 'update':
+            return AgendamentoCreateSerializer
+        return AgendamentoSerializer
 
     def perform_create(self, serializer):
-        serializer.save(cliente=self.request.user)
+        servicos = serializer.validated_data.pop('servicos')
+        agendamento = serializer.save(cliente=self.request.user)
+        agendamento.servicos.set(servicos)
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
