@@ -15,13 +15,15 @@ function Header() {
         <nav className="main-nav">
           {user ? (
             <>
-              <span className="welcome-message">Olá, {user.first_name}!</span>
-              <button onClick={logoutAction} className="nav-link button-logout">Sair</button>
-            </>
-          ) : (
-            <>
-              <Link to="/cadastro" className="nav-link">Cadastre-se</Link>
-              <Link to="/login" className="nav-link button-login">Entrar</Link>
+      <Link to="/meus-agendamentos" className="nav-link">Meus Agendamentos</Link>
+      
+      <span className="welcome-message">Olá, {user.first_name}!</span>
+      <button onClick={logoutAction} className="nav-link button-logout">Sair</button>
+    </>
+  ) : (
+    <>
+      <Link to="/cadastro" className="nav-link">Cadastre-se</Link>
+      <Link to="/login" className="nav-link button-login">Entrar</Link>
             </>
           )}
         </nav>

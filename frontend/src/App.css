@@ -267,3 +267,37 @@ button:hover {
   padding: 15px;
   font-size: 1.1em;
 }
+
+.lista-agendamentos {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.agendamento-card {
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  box-shadow: var(--box-shadow);
+}
+.agendamento-card h4 {
+  margin: 0 0 15px 0;
+  color: var(--primary-color);
+}
+.agendamento-card p {
+  text-align: left;
+  margin: 0 0 10px 0;
+}
+.agendamento-card ul {
+  list-style-position: inside;
+  padding-left: 0;
+}
+.agendamento-status {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 5px 10px;
+  background-color: #eee;
+  border-radius: 5px;
+  font-size: 0.8em;
+  font-weight: bold;
+}
