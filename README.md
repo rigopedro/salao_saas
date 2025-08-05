@@ -4,7 +4,7 @@ Um sistema completo de agendamento online (SaaS) para salões de beleza, constru
 
 <br>
 
-## 💡 A Gênese do Projeto
+## 💡 A Inspiração do Projeto
 
 Este projeto nasceu de uma observação do mundo real: ver minha avó, dona de um salão, gerenciar sua agenda complexa de clientes em um simples caderninho. A pergunta que me moveu foi: "Como posso usar a tecnologia para criar uma experiência de agendamento digital que seja, ao mesmo tempo, incrível para o gestor e incrivelmente fácil para clientes de todas as idades?". O Salão SaaS é a minha resposta a esse desafio, transformando uma ideia em um produto funcional.
 
